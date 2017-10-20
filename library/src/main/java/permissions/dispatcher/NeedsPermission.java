@@ -9,7 +9,9 @@ import java.lang.annotation.Target;
  * Register some methods which permissions are needed.
  */
 @Target(ElementType.METHOD)
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.CLASS)
 public @interface NeedsPermission {
     String[] value();
+
+    int maxSdkVersion() default 0;
 }

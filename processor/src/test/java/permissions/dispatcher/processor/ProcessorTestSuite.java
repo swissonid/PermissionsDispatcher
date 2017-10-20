@@ -6,19 +6,19 @@ import permissions.dispatcher.processor.data.Source;
 
 public class ProcessorTestSuite extends TestSuite {
 
-    @Test public void nativeFragmentNotSupported() {
-        expectRuntimeException("PermissionsDispatcher for annotated class 'MyFragment' can't be generated, because the support-v13 dependency is missing on your project");
-        assertJavaSource(Source.NativeFragmentNotSupported);
-    }
-
     @Test public void noPermissionActivity() {
         expectRuntimeException("Annotated class 'MyActivity' doesn't have any method annotated with '@NeedsPermission'");
         assertJavaSource(Source.NoPermissionActivity);
     }
 
-    @Test public void noPermissionFragment() {
+    @Test public void noPermissionSupportFragment() {
         expectRuntimeException("Annotated class 'MyFragment' doesn't have any method annotated with '@NeedsPermission'");
         assertJavaSource(Source.NoPermissionSupportFragment);
+    }
+
+    @Test public void noPermissionNativeFragment() {
+        expectRuntimeException("Annotated class 'MyFragment' doesn't have any method annotated with '@NeedsPermission'");
+        assertJavaSource(Source.NoPermissionNativeFragment);
     }
 
     @Test public void permissionWithNonVoidReturnType() {
@@ -131,12 +131,30 @@ public class ProcessorTestSuite extends TestSuite {
         assertJavaSource(Source.DuplicatesInListsActivity);
     }
 
+    @Test public void needsPermissionMethodOverload() {
+        expectRuntimeException("'showCamera()' has duplicated '@NeedsPermission' method. The method annotated with '@NeedsPermission' must has the unique name.");
+        assertJavaSource(Source.needsPermissionMethodOverload);
+    }
+
+    @Test public void needsPermissionMethodOverloadFragment() {
+        expectRuntimeException("'showCamera()' has duplicated '@NeedsPermission' method. The method annotated with '@NeedsPermission' must has the unique name.");
+        assertJavaSource(Source.needsPermissionMethodOverloadFragment);
+    }
+
+    @Test public void methodOverloadWithoutNeedsPermission() {
+        assertJavaSource(Source.methodOverloadWithoutNeedsPermission);
+    }
+
     @Test public void onePermissionActivity() {
         assertJavaSource(Source.OnePermissionActivity);
     }
 
-    @Test public void onePermissionFragment() {
+    @Test public void onePermissionSupportFragment() {
         assertJavaSource(Source.OnePermissionSupportFragment);
+    }
+
+    @Test public void onePermissionNativeFragment() {
+        assertJavaSource(Source.OnePermissionNativeFragment);
     }
 
     @Test public void onePermissionWithParametersActivity() {
@@ -312,8 +330,20 @@ public class ProcessorTestSuite extends TestSuite {
         assertJavaSource(Source.NoDuplicatesDespiteRepeatedValuesActivity);
     }
 
+    @Test public void validMaxSdkVersion() {
+        assertJavaSource(Source.ValidMaxSdkVersion);
+    }
+
+    @Test public void invalidMaxSdkVersion() {
+        assertJavaSource(Source.InValidMaxSdkVersion);
+    }
+
     @Test public void writeSettingsSupportFragment() {
         assertJavaSource(Source.WriteSettingsSupportFragment);
+    }
+
+    @Test public void writeSettingsNativeFragment() {
+        assertJavaSource(Source.WriteSettingsNativeFragment);
     }
 
     @Test public void writeSettingsActivity() {
@@ -341,5 +371,37 @@ public class ProcessorTestSuite extends TestSuite {
     @Test public void mixSystemAlertWindowAndWriteSettingsPermissionCompileError() {
         expectRuntimeException("Method 'systemAlertWindow()' defines 'android.permission.WRITE_SETTINGS' with other permissions at the same time.");
         assertJavaSource(Source.SystemAlertWindowAndWriteSettingsMixPermissionCase);
+    }
+
+    @Test public void systemAlertWindowGenericsActivity() {
+        assertJavaSource(Source.SystemAlertWindowGenericsActivity);
+    }
+
+    @Test public void systemAlertWindowSupportGenericsFragment() {
+        assertJavaSource(Source.SystemAlertWindowSupportGenericsFragment);
+    }
+
+    @Test public void nestedActivity() {
+        assertJavaSource(Source.NestedActivity);
+    }
+
+    @Test
+    public void nestedStaticActivity() {
+        assertJavaSource(Source.NestedStaticActivity);
+    }
+
+    @Test
+    public void nestedActivityWithDefaultPackage() {
+        assertJavaSource(Source.NestedActivityWithDefaultPackage);
+    }
+
+    @Test
+    public void nestedFragment() {
+        assertJavaSource(Source.NestedFragment);
+    }
+
+    @Test
+    public void nestedStaticFragment() {
+        assertJavaSource(Source.NestedStaticFragment);
     }
 }

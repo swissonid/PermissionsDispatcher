@@ -2,7 +2,17 @@ package permissions.dispatcher.processor.util
 
 import permissions.dispatcher.processor.ProcessorUnit
 import permissions.dispatcher.processor.RuntimePermissionsElement
-import permissions.dispatcher.processor.exception.*
+import permissions.dispatcher.processor.TYPE_UTILS
+import permissions.dispatcher.processor.exception.DuplicatedMethodNameException
+import permissions.dispatcher.processor.exception.DuplicatedValueException
+import permissions.dispatcher.processor.exception.MixPermissionTypeException
+import permissions.dispatcher.processor.exception.NoAnnotatedMethodsException
+import permissions.dispatcher.processor.exception.NoParametersAllowedException
+import permissions.dispatcher.processor.exception.NoThrowsAllowedException
+import permissions.dispatcher.processor.exception.PrivateMethodException
+import permissions.dispatcher.processor.exception.WrongClassException
+import permissions.dispatcher.processor.exception.WrongParametersException
+import permissions.dispatcher.processor.exception.WrongReturnTypeException
 import java.util.*
 import javax.lang.model.element.Element
 import javax.lang.model.element.ExecutableElement
@@ -14,11 +24,11 @@ private val WRITE_SETTINGS = "android.permission.WRITE_SETTINGS"
 private val SYSTEM_ALERT_WINDOW = "android.permission.SYSTEM_ALERT_WINDOW"
 
 /**
- * Obtains the ProcessorUnit implementation for the provided element.
+ * Obtains the [ProcessorUnit] implementation for the provided element.
  * Raises an exception if no suitable implementation exists
  */
-fun findAndValidateProcessorUnit(units: List<ProcessorUnit>, e: Element): ProcessorUnit {
-    val type = e.asType()
+fun <K> findAndValidateProcessorUnit(units: List<ProcessorUnit<K>>, element: Element) : ProcessorUnit<K> {
+    val type = element.asType()
     try {
         return units.first { type.isSubtypeOf(it.getTargetType()) }
     } catch (ex: NoSuchElementException) {
@@ -37,7 +47,7 @@ fun <A : Annotation> checkDuplicatedValue(items: List<ExecutableElement>, annota
         val permissionValue = it.getAnnotation(annotationClass).permissionValue()
         Collections.sort(permissionValue)
         allItems.forEach { oldItem ->
-            if (oldItem.equals(permissionValue)) {
+            if (oldItem == permissionValue) {
                 throw DuplicatedValueException(permissionValue, it, annotationClass)
             }
         }
@@ -102,7 +112,7 @@ fun checkMethodParameters(items: List<ExecutableElement>, numParams: Int, vararg
 
         params.forEachIndexed { i, param ->
             val requiredType = requiredTypes[i]
-            if (!param.asType().equals(requiredType)) {
+            if (!TYPE_UTILS.isSameType(param.asType(), requiredType)) {
                 throw WrongParametersException(it, requiredTypes)
             }
         }
@@ -118,6 +128,14 @@ fun <A : Annotation> checkMixPermissionType(items: List<ExecutableElement>, anno
             } else if (permissionValue.contains(SYSTEM_ALERT_WINDOW)) {
                 throw MixPermissionTypeException(it, SYSTEM_ALERT_WINDOW)
             }
+        }
+    }
+}
+
+fun checkDuplicatedMethodName(items: List<ExecutableElement>) {
+    items.forEach { item ->
+        items.firstOrNull { it != item && it.simpleName == item.simpleName }?.let {
+            throw DuplicatedMethodNameException(item)
         }
     }
 }

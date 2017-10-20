@@ -1,5 +1,58 @@
 # ChangeLog
 
+- 3.0.1 2017/09/17
+  - Fix: NeedsPermission annotated method with parameter doesn't work in Kotlin [#376](https://github.com/permissions-dispatcher/PermissionsDispatcher/issues/376)
+  - Fix: CallNeedsPermission check incorrectly flags calls to methods of different class [#377](https://github.com/permissions-dispatcher/PermissionsDispatcher/issues/377)
+- 3.0.0 2017/09/16
+  - Add fully [Kotlin support](https://github.com/hotchemi/PermissionsDispatcher/blob/master/doc/kotlin_support.md)!
+  - Allow for Deterministic, Reproducible Builds with sorted inputs [#342](https://github.com/permissions-dispatcher/PermissionsDispatcher/pull/342)
+  - Internal: Migrate Lint Rules to UAST [363](https://github.com/permissions-dispatcher/PermissionsDispatcher/pull/363)
+  - Rename withCheck to withPermissionCheck [#365](https://github.com/permissions-dispatcher/PermissionsDispatcher/pull/365)
+  - Fix CallNeedsPermissionDetector to work correctly [#368](https://github.com/permissions-dispatcher/PermissionsDispatcher/pull/368)
+- 2.4.0 2017/05/01
+  - Fix `SupportV13MissingException` with newer Gradle [#279](https://github.com/hotchemi/PermissionsDispatcher/issues/279).
+    - Now we bundle support v13 library in the library, you don't have to add v13 dependency by yourself.
+      - If you don't need v13 remove it rxpressly. ref: [README](https://github.com/hotchemi/PermissionsDispatcher#download)
+  - Remove a workaround in the case `targetSdkVersion < 23` [#305](https://github.com/hotchemi/PermissionsDispatcher/issues/305).
+    - If you need the workaround please use  older version.
+- 2.3.2 2017/03/10
+  - Update minSdkVersion to API level 9 [#286](https://github.com/hotchemi/PermissionsDispatcher/pull/286).
+  - Add new compile-time check [#284](https://github.com/hotchemi/PermissionsDispatcher/pull/284).
+  - Fix the problem with receiver of startActivityForResult [#280](https://github.com/hotchemi/PermissionsDispatcher/pull/280)
+  - Support nested annotated class [#263](https://github.com/hotchemi/PermissionsDispatcher/pull/263)
+- 2.3.1 2016/12/26
+  - Fix a bug related to Xiaomi. [#240](https://github.com/hotchemi/PermissionsDispatcher/issues/240).
+  - Address [#244](https://github.com/hotchemi/PermissionsDispatcher/issues/244) just in case.
+- 2.3.0 2016/12/14
+  - Start Xiaomi support. [#235](https://github.com/hotchemi/PermissionsDispatcher/pull/235).
+  - Fix slight bug for lint check. [#230](https://github.com/hotchemi/PermissionsDispatcher/pull/230).
+- 2.2.1 2016/12/08
+  - Lint update: Migrate to Psi APIs [#227](https://github.com/hotchemi/PermissionsDispatcher/pull/227).
+  - Make sure to support Java 1.6 [#222](https://github.com/hotchemi/PermissionsDispatcher/pull/222).
+- 2.2.0 2016/09/25
+  - Support maxSdkVersion [#204](https://github.com/hotchemi/PermissionsDispatcher/pull/204).
+  - Add ProGuard support [#175](https://github.com/hotchemi/PermissionsDispatcher/pull/175).
+  - Some internal cleanup.
+- 2.1.3 2016/05/12
+  - Fix [#147](https://github.com/hotchemi/PermissionsDispatcher/pull/147).
+- 2.1.2 2016/04/11
+  - Fix [#131](https://github.com/hotchemi/PermissionsDispatcher/pull/131).
+  - Add [#122](https://github.com/hotchemi/PermissionsDispatcher/pull/122).
+- 2.1.1 2016/03/30
+  - Fix [#124](https://github.com/hotchemi/PermissionsDispatcher/issues/124).
+- 2.1.0 2016/03/20
+  - Fix [#114](https://github.com/hotchemi/PermissionsDispatcher/issues/114).
+- 2.0.9 2016/03/19
+  - Fix [#112](https://github.com/hotchemi/PermissionsDispatcher/issues/112).
+- 2.0.8 2016/03/09
+  - Fix [#107](https://github.com/hotchemi/PermissionsDispatcher/issues/107).
+  - Fix [#109](https://github.com/hotchemi/PermissionsDispatcher/issues/109).
+- 2.0.7 2016/02/16
+  - Kotlin 1.0 support [#98](https://github.com/hotchemi/PermissionsDispatcher/pull/98).
+- 2.0.6 2016/02/15
+  - Add lint support [#75](https://github.com/hotchemi/PermissionsDispatcher/pull/75).
+  - Update kotlin version [#91](https://github.com/hotchemi/PermissionsDispatcher/pull/91).
+  - Performance improvement [#93](https://github.com/hotchemi/PermissionsDispatcher/pull/93).
 - 2.0.5 2016/01/29
   - Back to support JDK 1.7.
 - 2.0.4 2016/01/22

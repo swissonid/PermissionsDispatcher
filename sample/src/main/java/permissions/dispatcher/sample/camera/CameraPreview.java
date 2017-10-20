@@ -16,6 +16,7 @@
 
 package permissions.dispatcher.sample.camera;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Camera;
 import android.util.Log;
@@ -33,6 +34,7 @@ import java.io.IOException;
  * Implementation is based directly on the documentation at
  * http://developer.android.com/guide/topics/media/camera.html
  */
+@SuppressLint("ViewConstructor")
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
     private static final String TAG = "CameraPreview";
@@ -49,9 +51,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         if (camera == null || cameraInfo == null) {
             return;
         }
-        mCamera = camera;
-        mCameraInfo = cameraInfo;
-        mDisplayOrientation = displayOrientation;
+        setCamera(camera, cameraInfo, displayOrientation);
 
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
@@ -138,5 +138,15 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
 
         return result;
+    }
+
+    public void setCamera(Camera camera, Camera.CameraInfo cameraInfo, int displayOrientation) {
+        // Do not reinitialise if no camera has been set
+        if (camera == null || cameraInfo == null) {
+            return;
+        }
+        mCamera = camera;
+        mCameraInfo = cameraInfo;
+        mDisplayOrientation = displayOrientation;
     }
 }
